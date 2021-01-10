@@ -14,5 +14,5 @@ git remote add proj ..
 git push --force proj gh_pages
 rm -rf .git
 cd ..
-git branch --force gh_pages_bak origin/gh_pages
+git branch --force gh_pages_bak origin/gh_pages || true
 git push --force origin gh_pages
