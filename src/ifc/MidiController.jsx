@@ -58,7 +58,7 @@ class MidiController extends React.Component {
       return <div>No input devices found.</div>
     }
 
-    return device_keys.map(key => <InputDevice device={input_devices[key]} />);
+    return device_keys.map(key => <InputDevice key={`input_${key}`} device={input_devices[key]} />);
   }
 
   render_output_devices() {
@@ -68,12 +68,11 @@ class MidiController extends React.Component {
       return <div>No output devices found.</div>
     }
 
-    return device_keys.map(key => <OutputDevice device={output_devices[key]} />);
+    return device_keys.map(key => <OutputDevice key={`output_${key}`} device={output_devices[key]} />);
   }
 
   render() {
     const { loaded } = this.state;
-
     if (!loaded) {
       return this.render_loading();
     }
