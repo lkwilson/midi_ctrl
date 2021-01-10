@@ -1,16 +1,14 @@
 import React from 'react';
 
 import { get_web_midi } from './setup';
-import { OutputDevice } from './OutputDevice';
-import { InputDevice } from './InputDevice';
+import { Device } from './Device';
 
 class MidiController extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loaded: false,
-      output_devices: {},
-      input_devices: {},
+      devices: {},
     };
     this.web_midi = null;
     get_web_midi().then(this.loaded.bind(this));
@@ -33,42 +31,34 @@ class MidiController extends React.Component {
   }
 
   update() {
-    console.log("Updating device list", this.web_midi);
-    const output_devices = {};
-    const input_devices = {};
-    this.web_midi.outputs.forEach(output => {
-      const { id } = output;
-      output_devices[id] = output;
+    console.log("Updating device list");
+    console.log(this.web_midi);
+    const devices = {};
+    this.web_midi.outputs.forEach(device => {
+      devices[device.id] = device;
     });
-    this.web_midi.inputs.forEach(input => {
-      const { id } = input;
-      input_devices[id] = input;
+    this.web_midi.inputs.forEach(device => {
+      devices[device.id] = device;
     });
-    this.setState({ input_devices, output_devices });
+    this.setState({ devices });
   }
 
   render_loading() {
     return <div>Loading...</div>;
   }
 
-  render_input_devices() {
-    const { input_devices } = this.state;
-    const device_keys = Object.keys(input_devices).sort();
-    if (device_keys.length === 0) {
-      return <div>No input devices found.</div>
-    }
-
-    return device_keys.map(key => <InputDevice key={`input_${key}`} device={input_devices[key]} />);
+  render_no_devices() {
+    return <div>No input devices found.</div>
   }
 
-  render_output_devices() {
-    const { output_devices } = this.state;
-    const device_keys = Object.keys(output_devices).sort();
+  render_devices() {
+    const { devices } = this.state;
+    const device_keys = Object.keys(devices).sort();
     if (device_keys.length === 0) {
-      return <div>No output devices found.</div>
+      return this.render_no_devices();
     }
 
-    return device_keys.map(key => <OutputDevice key={`output_${key}`} device={output_devices[key]} />);
+    return device_keys.map(key => <Device key={key} device={devices[key]} />);
   }
 
   render() {
@@ -79,10 +69,7 @@ class MidiController extends React.Component {
 
     return (
       <React.Fragment>
-        <h2>Input Devices:</h2>
-        {this.render_input_devices()}
-        <h2>Output Devices:</h2>
-        {this.render_output_devices()}
+        {this.render_devices()}
       </React.Fragment>
     );
   }
