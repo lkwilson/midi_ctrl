@@ -4,6 +4,7 @@ set -ex
 
 git fetch origin
 npm run build
+touch build/.nojekyll
 cd build
 git init
 git checkout -b gh_pages
