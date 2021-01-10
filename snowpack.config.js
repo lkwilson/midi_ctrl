@@ -17,7 +17,7 @@ module.exports = {
     /* ... */
   },
   buildOptions: {
-    /* ... */
+    baseUrl: '/midi_ctrl',
   },
   proxy: {
     /* ... */
