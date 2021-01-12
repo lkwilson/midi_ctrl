@@ -7,12 +7,12 @@ npm run build
 touch build/.nojekyll
 cd build
 git init
-git checkout -b gh_pages
+git checkout -b gh-pages
 git add --all --force
 git commit -m "Deployment"
 git remote add proj ..
-git push --force proj gh_pages
+git push --force proj gh-pages
 rm -rf .git
 cd ..
-git branch --force gh_pages_bak origin/gh_pages || true
-git push --force origin gh_pages
+git branch --force gh-pages_bak origin/gh-pages || true
+git push --force origin gh-pages
